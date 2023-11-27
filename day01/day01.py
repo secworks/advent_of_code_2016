@@ -112,28 +112,23 @@ def problem2():
 
     for (m, d) in my_moves:
         new_dir = get_direction(m, curr_dir)
-        positions = []
 
-        # Walk the path, collection coordinates
-        # for all positions.
+        # Walk the path, generate and check all positions.
         for delta in range(1, d + 1):
-            delta_pos = get_position(new_dir, delta, x, y)
-            positions.append(delta_pos)
+            pos = get_position(new_dir, delta, x, y)
+
+            if pos in visited and not done:
+                revisited = pos
+                done = True
+            visited.add(pos)
 
         # Set last delta position as new position.
-        (x, y) = delta_pos
+        # Update direction we are facing.
+        (x, y) = pos
         curr_dir = new_dir
 
-        for p in positions:
-            if p in visited and not done:
-                revisited = p
-                done = True
-            else:
-                visited.add(p)
-
-    (x, y) = revisited
     print("Problem2:")
-    print("Distance to first revisited position:", (abs(x) + abs(y)))
+    print("Distance to first revisited position:", (abs(revisited[0]) + abs(revisited[1])))
     print("")
 
 
