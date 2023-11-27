@@ -32,50 +32,44 @@ def get_moves(s):
 #-------------------------------------------------------------------
 #-------------------------------------------------------------------
 def get_direction(m, curr):
-    if curr == "":
+    if curr == "West":
         if m == "L":
-            return "left"
-        else:
-            return "right"
-
-    if curr == "left":
-        if m == "L":
-            return "down"
+            return "South"
         if m == "R":
-            return "up"
+            return "North"
 
-    if curr == "right":
+    if curr == "East":
         if m == "L":
-            return "up"
+            return "North"
         if m == "R":
-            return "down"
+            return "South"
 
-    if curr == "up":
+    if curr == "North":
         if m == "L":
-            return "left"
+            return "West"
         if m == "R":
-            return "right"
+            return "East"
 
-    if curr == "down":
+    if curr == "South":
         if m == "L":
-            return "right"
+            return "East"
         if m == "R":
-            return "left"
+            return "West"
 
 
 #-------------------------------------------------------------------
 #-------------------------------------------------------------------
 def get_position(curr, d, x, y):
-    if curr == "up":
+    if curr == "North":
         y = y - d
 
-    if curr == "down":
+    if curr == "South":
         y = y + d
 
-    if curr == "left":
+    if curr == "West":
         x = x - d
 
-    if curr == "right":
+    if curr == "East":
         x = x + d
 
     return (x, y)
@@ -89,7 +83,7 @@ def problem1():
 
     xd = 0
     yd = 0
-    curr_dir = ""
+    curr_dir = "North"
 
     for m, d in my_moves:
         curr_dir = get_direction(m, curr_dir)
@@ -99,31 +93,47 @@ def problem1():
     print("Total distance: %d" % (abs(xd) + abs(yd)))
     print("")
 
-    print("Problem2:")
-    print("")
-
 
 #-------------------------------------------------------------------
 #-------------------------------------------------------------------
 def problem2():
+#    my_input = get_input("day01_example1.txt")
     my_input = get_input("day01_input.txt")
     my_moves = get_moves(my_input)
 
-    xd = 0
-    yd = 0
-    curr_dir = ""
+    # Start at pos 0,0 and add it to visited positions
+    # We face north when starting.
+    x = 0
+    y = 0
+    curr_dir = "North"
     visited = set()
+    visited.add((x, y))
+    done = False
 
-    for m, d in my_moves:
-        curr_dir = get_direction(m, curr_dir)
-        (xd, yd) = get_position(curr_dir, d, xd, yd)
+    for (m, d) in my_moves:
+        new_dir = get_direction(m, curr_dir)
+        positions = []
 
-        if (xd, yd) not in visited:
-            visited.add((xd, yd))
-        else:
-            print((xd, yd))
+        # Walk the path, collection coordinates
+        # for all positions.
+        for delta in range(1, d + 1):
+            delta_pos = get_position(new_dir, delta, x, y)
+            positions.append(delta_pos)
 
+        # Set last delta position as new position.
+        (x, y) = delta_pos
+        curr_dir = new_dir
+
+        for p in positions:
+            if p in visited and not done:
+                revisited = p
+                done = True
+            else:
+                visited.add(p)
+
+    (x, y) = revisited
     print("Problem2:")
+    print("Distance to first revisited position:", (abs(x) + abs(y)))
     print("")
 
 
