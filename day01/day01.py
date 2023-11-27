@@ -84,7 +84,7 @@ def get_position(curr, d, x, y):
 #-------------------------------------------------------------------
 #-------------------------------------------------------------------
 def problem1():
-    my_input = get_input("day1_input.txt")
+    my_input = get_input("day01_input.txt")
     my_moves = get_moves(my_input)
 
     xd = 0
@@ -106,7 +106,7 @@ def problem1():
 #-------------------------------------------------------------------
 #-------------------------------------------------------------------
 def problem2():
-    my_input = get_input("day1_input.txt")
+    my_input = get_input("day01_input.txt")
     my_moves = get_moves(my_input)
 
     xd = 0
