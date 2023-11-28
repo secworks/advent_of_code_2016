@@ -27,6 +27,21 @@ def get_sides(i):
         graphs.append((int(one), int(two), int(three)))
     return graphs
 
+#-------------------------------------------------------------------
+# Extract triangles three rows at a time.
+#-------------------------------------------------------------------
+def get_sides3(i):
+    graphs = []
+    for r in range(0, len(i), 3):
+        (l00, l01, l02) = i[r].split(',')
+        (l10, l11, l12) = i[r + 1].split(',')
+        (l20, l21, l22) = i[r + 2].split(',')
+
+        graphs.append((int(l00), int(l10), int(l20)))
+        graphs.append((int(l01), int(l11), int(l21)))
+        graphs.append((int(l02), int(l12), int(l22)))
+    return graphs
+
 
 #-------------------------------------------------------------------
 #-------------------------------------------------------------------
@@ -59,7 +74,14 @@ def problem1():
 def problem2():
     print("Problem 2")
     print("---------")
+    my_input = get_input("day03_input.txt")
+#    my_input = get_input("day03_example.txt")
 
+    my_graphs = get_sides3(my_input)
+    num_triangles = count_triangles(my_graphs)
+
+    print("")
+    print("number of triangles:", num_triangles)
     print("")
 
 
