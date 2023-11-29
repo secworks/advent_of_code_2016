@@ -50,17 +50,53 @@ def get_room_data_stats(room_data):
 
 #-------------------------------------------------------------------
 #-------------------------------------------------------------------
+def check_chars(a, b, my_db):
+    if (a not in my_db) or (b not in my_db):
+        return False
+
+    if my_db[a] > my_db[b]:
+        return True
+
+    elif (my_db[a] == my_db[b]) and (ord(a) < ord(b)):
+        return True
+
+    else:
+        return False
+
+#-------------------------------------------------------------------
+#-------------------------------------------------------------------
+def real_room(csum, my_db):
+    return check_chars(csum[0], csum[1], my_db) and \
+        check_chars(csum[1], csum[2], my_db) and \
+        check_chars(csum[2], csum[3], my_db) and \
+        check_chars(csum[3], csum[4], my_db)
+
+
+
+#-------------------------------------------------------------------
+#-------------------------------------------------------------------
 def problem1():
-#    my_input = get_input("day04_input.txt")
-    my_input = get_input("day04_example.txt")
+    my_input = get_input("day04_input.txt")
+#    my_input = get_input("day04_example.txt")
 
     my_room_data = get_room_data(my_input)
     my_room_data_stats = get_room_data_stats(my_room_data)
 
-    print("Room data:", my_room_data)
-    print("Room data stats:", my_room_data_stats)
+    real_rooms = 0
+    sector_sum = 0
+    for i in range(len(my_room_data)):
+        (name, sector_id, csum) = my_room_data[i]
+        my_db = my_room_data_stats[i]
+
+        if real_room(csum, my_db):
+            real_rooms += 1
+            sector_sum += int(sector_id)
+            print("Room", name, sector_id, csum, "is real")
+        else:
+            print("Room", name, sector_id, csum, "is NOT real")
 
     print("Problem1:")
+    print("Number of real rooms:", real_rooms, "sum of all sector IDs:", sector_sum)
     print("")
 
 
