@@ -42,6 +42,18 @@ def calc_csum(name):
         csum += freq_table[i][0]
     return csum
 
+#-------------------------------------------------------------------
+#-------------------------------------------------------------------
+def rotx(name, rot):
+    alphabet = "abcdefghijklmnopqrstuvwxyz"
+
+    decode = ''
+    for c in name:
+        i = alphabet.find(c)
+        j = (i + rot) % len(alphabet)
+        decode += alphabet[j]
+    return decode
+
 
 #-------------------------------------------------------------------
 #-------------------------------------------------------------------
@@ -61,9 +73,10 @@ def problem1():
         if csum == expected_csum:
             real_rooms += 1
             sector_sum += int(sector_id)
-            print("Room", name, sector_id, csum, "is real")
+#            print("Room", name, sector_id, csum, "is real")
         else:
-            print("Room", name, sector_id, csum, "is NOT real")
+            pass
+#            print("Room", name, sector_id, csum, "is NOT real")
 
     print("Problem1:")
     print("Number of real rooms:", real_rooms, "sum of all sector IDs:", sector_sum)
@@ -73,8 +86,17 @@ def problem1():
 #-------------------------------------------------------------------
 #-------------------------------------------------------------------
 def problem2():
+    my_input = get_input("day04_input.txt")
+    my_room_data = get_room_data(my_input)
 
     print("Problem2:")
+    for i in range(len(my_room_data)):
+        (name, sector_id, csum) = my_room_data[i]
+
+        decrypted_name = rotx(name, int(sector_id))
+        if "northpoleobjectstorage" in decrypted_name:
+            print(name, "decodes to:", decrypted_name, "with id", sector_id)
+
     print("")
 
 
