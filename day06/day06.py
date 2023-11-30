@@ -18,57 +18,51 @@ def get_input(filename):
 
 #-------------------------------------------------------------------
 #-------------------------------------------------------------------
-def get_room_data(lines):
-    room_data = []
-
-    for line in lines:
-        (tmp1, tmp2) = line.split('[')
-        checksum = tmp2[:-1]
-
-        tmp3 = tmp1.split('-')
-        room_id = tmp3[-1]
-        enc_name = ''.join(tmp3[:-1])
-
-        room_data.append((enc_name, room_id, checksum))
-    return room_data
-
-#-------------------------------------------------------------------
-#-------------------------------------------------------------------
-def calc_csum(name):
-    freq_table = Counter(''.join(sorted(name))).most_common()
-    csum = ''
-
-    for i in range(5):
-        csum += freq_table[i][0]
-    return csum
-
-#-------------------------------------------------------------------
-#-------------------------------------------------------------------
-def rotx(name, rot):
-    alphabet = "abcdefghijklmnopqrstuvwxyz"
-
-    decode = ''
-    for c in name:
-        i = alphabet.find(c)
-        j = (i + rot) % len(alphabet)
-        decode += alphabet[j]
-    return decode
-
-
-#-------------------------------------------------------------------
-#-------------------------------------------------------------------
 def problem1():
     my_input = get_input("day06_input.txt")
-    my_input = get_input("day06_example.txt")
+#    my_input = get_input("day06_example.txt")
 
-    print("Problem1:")
+    col_strings = []
+    freqs = []
+    msg = ''
+    for s in range(len(my_input[0])):
+        col_strings.append('')
+
+    for s in my_input:
+        for i in range(len(s)):
+            col_strings[i] += s[i]
+
+    for i in range(len(col_strings)):
+        col_strings[i] = sorted(col_strings[i])
+        freqs = Counter(col_strings[i]).most_common()
+        msg += freqs[0][0]
+
+    print("Problem1:", msg)
     print("")
 
 
 #-------------------------------------------------------------------
 #-------------------------------------------------------------------
 def problem2():
-    print("Problem2:")
+    my_input = get_input("day06_input.txt")
+#    my_input = get_input("day06_example.txt")
+
+    col_strings = []
+    freqs = []
+    msg = ''
+    for s in range(len(my_input[0])):
+        col_strings.append('')
+
+    for s in my_input:
+        for i in range(len(s)):
+            col_strings[i] += s[i]
+
+    for i in range(len(col_strings)):
+        col_strings[i] = sorted(col_strings[i])
+        freqs = Counter(col_strings[i]).most_common()
+        msg += freqs[-1][0]
+
+    print("Problem2:", msg)
     print("")
 
 
